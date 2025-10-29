@@ -1,4 +1,33 @@
+# https://yamlchecker.com/
+name: noteapi
 services:
   mongodb-service:
     image: mongo:latest
     container_name: mongodb
+    volumes:
+      - mongodb_data:/data/db
+    ports: 
+      - "27017:27017"
+    networks: 
+      - noteapi-net
+
+
+  nodeapi-service:
+    image: node:alpine
+    container_name: noteapi
+    volumes:
+      - ./:/app
+    working_dir: /app
+    ports:
+      - "8002:8002"
+    depends_on: 
+      - mongodb-service
+    networks:
+      - noteapi-net
+    command: sh -c "npm install && node index.js"
+
+networks: 
+  noteapi-net:
+
+volumes:
+  mongodb_data:
