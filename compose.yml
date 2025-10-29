@@ -1,0 +1,4 @@
+services:
+  mongodb-service:
+    image: mongo:latest
+    container_name: mongodb
